@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js"
+      integrity="sha512-luMnTJZ7oEchNDZAtQhgjomP1eZefnl82ruTH/3Oj/Yu5qYtwL7+dVRccACS/Snp1lFXq188XFipHKYE75IaQQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+  <body>
+    <script>
+      const socket = io("http://43.204.14.195:8888", {
+        autoConnect: true,
+      });
+
+      const currentRoom = "SHREE_HARI";
+
+      socket.on("connect", () => {
+        socket.emit("JOIN_ROOM", currentRoom);
+      });
+
+      setTimeout(() => {
+        socket.emit("SEND_MESSAGE", {
+          room: currentRoom,
+          message: "Hi",
+        });
+      }, 3000);
+
+      socket.on("receive_message", function ({ message, sender }) {
+        alert(message);
+        alert("Receive from " + sender);
+      });
+    </script>
+  </body>
+</html>
